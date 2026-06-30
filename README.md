@@ -71,8 +71,8 @@ Install the CUDA-compatible version of PyTorch from [pytorch.org](https://pytorc
 
 ```bash
 # 1. Clone the repository
-git clone <your-repo-url>
-cd <repo-folder>
+git clone https://github.com/ojasjog/animal-detector/
+cd animal-detector
 
 # 2. Create a virtual environment (recommended)
 python -m venv venv
