@@ -99,7 +99,7 @@ huggingface-cli login
 The layout below shows the full project after running `generate_assets.py` and `train.py`. Files marked with ★ are included in the repo before you run anything.
 
 ```
-project/
+animal-detector/
 │
 ├── best.pt ★                      ← Pre-trained weights (included, ~22 MB)
 ├── generate_assets.py ★
