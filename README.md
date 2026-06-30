@@ -202,6 +202,12 @@ Ten distinct landscape scenes are generated with the same hires pipeline as the 
 | 9 | Dense jungle interior |
 | 10 | Dry scrubland desert |
 
+#### Sample background (not to scale)
+<img width="320" height="240" alt="background_5" src="https://github.com/user-attachments/assets/7b3389be-b208-429e-a648-47f98f4feb9c" />
+
+
+
+
 **Phase 2 — Generate animal foregrounds** *(15 templates per class)*
 
 For each class, 15 distinct prompt templates cover a range of poses and camera angles: sitting, standing alert, lying down, walking (side profile), running mid-stride, crouching, stretching, curling up, head-tilt portrait, looking over shoulder, low-angle, macro close-up, yawning, three-quarter portrait, and stepping forward. A shared negative prompt suppresses blur, watermarks, cartoons, multiple animals, and anatomical errors.
@@ -211,7 +217,15 @@ Each foreground image goes through a two-pass hires pipeline:
 1. **Base pass** — 512×512, DPM++ 2M Karras scheduler, 18 inference steps, CFG 5.5
 2. **Hires fix** — upscale to 640×640 with LANCZOS, then img2img at denoising strength 0.45, 12 steps
 
-After generation, `rembg` removes the background using alpha matting (`foreground_threshold=240`, `background_threshold=10`, `erode_size=10`), and the result is cropped to its content bounding box to remove transparent padding.
+#### Sample generated image (not to scale)
+<img width="320" height="240" alt="foreground_raw_0_2" src="https://github.com/user-attachments/assets/bf3ae7e0-1844-4887-9fba-c814637ad541" />
+
+
+After generation, `rembg` removes the background using alpha matting (`foreground_threshold=240`, `background_threshold=10`, `erode_size=10`), and the result is cropped to its content bounding box to remove transparent padding as follows : 
+
+
+<img width="320" height="240" alt="foreground_0_2 (2)" src="https://github.com/user-attachments/assets/7037bc6b-2294-43cc-8180-999560c0ea02" />
+
 
 **Phase 3 — Composite and label** *(1,000 images per class)*
 
@@ -232,6 +246,11 @@ For each image in the batch:
 3. The foreground is randomly scaled to **25–55% of canvas width** (aspect ratio preserved).
 4. Pasted at a random `(x, y)` offset onto a randomly selected cached background.
 5. The YOLO label is derived directly from the **foreground alpha channel** (pixel threshold 10) — not the outer tile bounding box — giving pixel-precise labels. Coordinates are normalised to [0, 1].
+
+<img width="320" height="240" alt="sample_0_0005" src="https://github.com/user-attachments/assets/c8e9467a-9d03-44f1-8bb4-0fa84ad441d5" />
+
+
+
 
 **Split:** images 0–799 per class → `train/`; images 800–999 → `val/`
 
